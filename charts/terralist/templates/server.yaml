@@ -1,0 +1,85 @@
+{{- define "terralist.server.hardcodedValues" -}}
+global:
+  nameOverride: server
+
+env:
+  {{ if .Values.terralist.metrics.enabled }}
+      TERRALIST_TELEMETRY_INCLUDE: all
+  {{ end }}
+  {{- if .Values.terralist.configuration }}
+      TERRALIST_CONFIG_FILE: /config/terralist-config.yaml
+  {{- end }}
+
+{{- if .Values.terralist.configuration }}
+podAnnotations:
+  checksum/config: {{ .Values.terralist.configuration | toYaml | sha256sum }}
+{{- end }}
+
+controller:
+  strategy: RollingUpdate
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    annotations: {}
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 5758
+        protocol: HTTP
+      metrics-api:
+        enabled: {{ .Values.terralist.metrics.enabled }}
+        port: 8081
+        protocol: HTTP
+      metrics-ms:
+        enabled: {{ .Values.terralist.metrics.enabled }}
+        port: 8082
+        protocol: HTTP
+
+
+serviceMonitor:
+  main:
+    enabled: {{ .Values.terralist.metrics.enabled }}
+    endpoints:
+      - port: metrics-api
+        scheme: http
+      - port: metrics-ms
+        scheme: http
+
+probes:
+  # Use proper http route once terralist implements health endpoints
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      tcpSocket:
+        port: http
+      initialDelaySeconds: 3
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup: *probes
+
+persistence:
+{{- if .Values.terralist.configuration }}
+  config:
+    enabled: true
+    type: configMap
+    name: {{ .Release.Name }}-terralist-config
+{{- end }}
+  library:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    existingClaim: {{ .Values.terralist.persistence.library.existingClaim }}
+{{- end }}
+
+{{ if .Values.server.enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "server" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "terralist.server.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}
