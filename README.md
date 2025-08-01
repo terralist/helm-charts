@@ -4,7 +4,7 @@ Installs [Terralist](https://github.com/terralist/terralist), A truly private Te
 
 # Goal
 
-This repo contains helm charts the terralist community developed to help deploy terralist on Kubernetes cluster.
+This repo contains helm charts the Terralist community developed to help deploy Terralist on Kubernetes cluster.
 
 It leverages the bjw-s [common-library chart](https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common) to make configuration as easy as possible. 
 
@@ -28,7 +28,7 @@ of all possible changes within the `charts/terralist/values.yaml` file.
 
 ## Chart architecture 
 
-This chart uses the [common library](https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common). You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s-labs/helm-charts/blob/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common/values.yaml) to see what keys are available.
+This chart uses the [common library](https://github.com/bjw-s-labs/helm-charts/tree/e44d184a8e2037495c122d8056878b1ca2ea9a5b/charts/library/common). You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s-labs/helm-charts/blob/e44d184a8e2037495c122d8056878b1ca2ea9a5b/charts/library/common/values.yaml) to see what keys are available.
 
 ## Uninstalling the Chart
 
