@@ -46,7 +46,7 @@ jobs:
         run: helm template terralist main/charts/terralist --set terralist.persistence.library.existingClaim=test-pvc | tee main/charts/terralist/build/manifest.yaml
 
       - name: create diff comment
-        uses: int128/diff-action@v.1.55.0
+        uses: int128/diff-action@v1.55.0
         with:
           base: main/charts/terralist/build
           head: charts/terralist/build
