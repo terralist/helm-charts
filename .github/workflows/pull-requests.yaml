@@ -1,0 +1,53 @@
+name: pull-request-validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - feature/pr-action
+
+jobs:
+  build_lint_validate_diff:
+    name: lint, validate and diff from main
+    permissions: write-all
+    runs-on: ubuntu-latest
+    container:
+      image: alpine/helm:3.18.4
+    steps:
+      - name: checkout pr head
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: install chart dependencies
+        run: helm dependency build charts/terralist
+
+      - name: lint helm chart
+        run: helm lint charts/terralist --set terralist.persistence.library.existingClaim=test-pvc
+
+      - name: prepare
+        run: mkdir -p charts/terralist/build
+      - name: create full manifest from pr head
+        run: helm template terralist charts/terralist --set terralist.persistence.library.existingClaim=test-pvc | tee charts/terralist/build/manifest.yaml
+
+      - name: checkout main
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+          ref: main
+          path: main
+
+      - name: install chart dependencies
+        run: helm dependency build main/charts/terralist
+
+      - name: prepare
+        run: mkdir -p main/charts/terralist/build
+      - name: create full manifest from main
+        run: helm template terralist main/charts/terralist --set terralist.persistence.library.existingClaim=test-pvc | tee main/charts/terralist/build/manifest.yaml
+
+      - name: create diff comment
+        uses: int128/diff-action@v1.55.0
+        with:
+          base: main/charts/terralist/build
+          head: charts/terralist/build
+          comment-header: "## Changes in Final Manifest"
