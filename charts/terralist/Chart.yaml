@@ -1,23 +1,31 @@
 ---
-apiVersion: v2
-description: A chart to run Terralist (terralist.io) running on kubernetes
-name: terralist
-version: 0.1.0
-appVersion: v0.8.0
-home: https://terralist.io/
-icon: https://raw.githubusercontent.com/terralist/terralist/refs/heads/master/docs/assets/terralist.svg
-sources:
-  - https://github.com/terralist/helm-charts/tree/main/charts/terralist
-  - https://github.com/terralist/terralist
-maintainers:
-  - name: barnes-c
-    email: 68067715+barnes-c@users.noreply.github.com
-dependencies:
-  - name: common
-    repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.2.0
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
     - kind: added
       description: Made chart available through OCI repository
+apiVersion: v2
+appVersion: "v0.8.0"
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    version: 2.31.3
+description: A chart to run Terralist (terralist.io) running on kubernetes
+home: https://terralist.io/
+icon: https://raw.githubusercontent.com/terralist/terralist/refs/heads/master/docs/assets/terralist.svg
+keywords:
+  - terraform
+  - providers
+  - module
+  - registry
+  - terralist
+maintainers:
+  - name: barnes-c
+    email: 68067715+barnes-c@users.noreply.github.com
+  - name: valentindeaconu
+    email: 88654883+valentindeaconu@users.noreply.github.com
+name: terralist
+sources:
+  - https://github.com/terralist/helm-charts/tree/main/charts/terralist
+  - https://github.com/terralist/terralist
+version: 0.8.0
