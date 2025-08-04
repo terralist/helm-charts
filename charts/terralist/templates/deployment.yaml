@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels: {{- include "common.labels.standard" (dict "customLabels" .Values.podLabels "context" .) | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" (dict "customLabels" .Values.podLabels "context" .) | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "common.labels.matchLabels" (dict "customLabels" .Values.podLabels "context" .) | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPorts.http }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}

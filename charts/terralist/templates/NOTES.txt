@@ -1,0 +1,13 @@
+{{- if .Values.ingress.enabled }}
+1. Get the application URL by running:
+
+  echo "https://{{ .Values.ingress.hostname }}/"
+
+{{- else }}
+1. Get the service URL by running:
+
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  kubectl port-forward $POD_NAME 5758:{{ .Values.service.ports.http }} --namespace {{ .Release.Namespace }}
+
+Then access the app at: http://localhost:5758
+{{- end }}

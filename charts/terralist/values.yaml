@@ -1,0 +1,57 @@
+image:
+  registry: ghcr.io
+  repository: terralist/terralist
+  tag: v0.8.0
+  pullPolicy: IfNotPresent
+
+containerPorts:
+  http: 5758
+
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# TODO: add probes when terralist supports health checks
+# livenessProbe:
+#   enabled: true
+#   path: /health
+#   port: http
+#   initialDelaySeconds: 10
+#   periodSeconds: 10
+
+# readinessProbe:
+#   enabled: true
+#   path: /health
+#   port: http
+#   initialDelaySeconds: 5
+#   periodSeconds: 5
+
+# startupProbe:
+#   enabled: true
+#   path: /health
+#   port: http
+#   initialDelaySeconds: 5
+#   periodSeconds: 5
+
+podLabels:
+  app.kubernetes.io/component: terralist
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    http: 5758
+
+ingress:
+  enabled: false
+  ingressClassName: nginx
+  hostname: terralist.local
+  annotations: {}
+  tls: false
+  tlsSecret: terralist-tls
