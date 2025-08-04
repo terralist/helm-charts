@@ -4,7 +4,7 @@ Installs [Terralist](https://github.com/terralist/terralist), A truly private Te
 
 # Goal
 
-This repo contains helm charts the terralist community developed to help deploy terralist on Kubernetes cluster.
+This repo contains helm charts the Terralist community developed to help deploy Terralist on Kubernetes cluster.
 
 It leverages the bitnami [common-library chart](https://github.com/bitnami/charts/tree/da4aaf376e800760fd5ada2b07e3c85c7c8ddd95/bitnami/common) to make configuration as easy as possible. 
 

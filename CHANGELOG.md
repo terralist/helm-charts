@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+CI: add workflows PR validation and release creation
+feat: basic scaffolding
 
 ### Changed
 
