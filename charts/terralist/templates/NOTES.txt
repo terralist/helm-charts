@@ -1,13 +1,15 @@
-{{- if .Values.ingress.enabled }}
-1. Get the application URL by running:
+Terralist has been deployed.
 
-  echo "https://{{ .Values.ingress.hostname }}/"
+Service:
+  {{- if and .Values.service.main.enabled (hasKey .Values.service.main.ports "http") }}
+  Type: ClusterIP
+  Port: {{ .Values.service.main.ports.http.port }}
+  {{- end }}
 
-{{- else }}
-1. Get the service URL by running:
-
-  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-  kubectl port-forward $POD_NAME 5758:{{ .Values.service.ports.http }} --namespace {{ .Release.Namespace }}
-
-Then access the app at: http://localhost:5758
-{{- end }}
+Ingress:
+  {{- if .Values.ingress.main.enabled }}
+  Host: {{ (index .Values.ingress.main.hosts 0).host }}
+  Path: {{ (index (index .Values.ingress.main.hosts 0).paths 0).path }}
+  {{- else }}
+  Ingress disabled. Enable via values.yml: ingress.main.enabled=true
+  {{- end }}
