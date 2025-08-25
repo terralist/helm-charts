@@ -8,6 +8,40 @@ entries:
           description: Made chart available through OCI repository
     apiVersion: v2
     appVersion: v0.8.0
+    created: "2025-08-25T11:28:30.271913169Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts/
+      version: 4.2.0
+    description: A chart to run Terralist (terralist.io) running on kubernetes
+    digest: b976b738e9bd699e6c60eeb2aef3da00e9f4299fd6388c75ae631708c0e2ee3c
+    home: https://terralist.io/
+    icon: https://raw.githubusercontent.com/terralist/terralist/refs/heads/master/docs/assets/terralist.svg
+    keywords:
+    - terraform
+    - providers
+    - module
+    - registry
+    - terralist
+    maintainers:
+    - email: 68067715+barnes-c@users.noreply.github.com
+      name: barnes-c
+    - email: 88654883+valentindeaconu@users.noreply.github.com
+      name: valentindeaconu
+    name: terralist
+    sources:
+    - https://github.com/terralist/helm-charts/tree/main/charts/terralist
+    - https://github.com/terralist/terralist
+    urls:
+    - https://github.com/terralist/helm-charts/releases/download/terralist-0.8.1/terralist-0.8.1.tgz
+    version: 0.8.1
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |-
+        - kind: added
+          description: Made chart available through OCI repository
+    apiVersion: v2
+    appVersion: v0.8.0
     created: "2025-08-04T13:12:52.877472825Z"
     dependencies:
     - name: common
@@ -35,4 +69,4 @@ entries:
     urls:
     - https://github.com/terralist/helm-charts/releases/download/terralist-0.8.0/terralist-0.8.0.tgz
     version: 0.8.0
-generated: "2025-08-04T13:12:52.877477854Z"
+generated: "2025-08-25T11:28:30.271921354Z"
