@@ -28,4 +28,4 @@ name: terralist
 sources:
   - https://github.com/terralist/helm-charts/tree/main/charts/terralist
   - https://github.com/terralist/terralist
-version: 0.8.0
+version: 0.8.1
