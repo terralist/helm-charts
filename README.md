@@ -18,8 +18,9 @@ You should not copy the full values.yaml from this repository. Only set the valu
 
 There are a few things that you are required to configure in your values.yaml before installing the chart:
 * Required Terralist options (TERRALIST_OAUTH_PROVIDER, TERRALIST_TOKEN_SIGNING_SECRET, etc...)
-* Either use the Chart to create a PVC or supply your own
-* ...
+* Configure persistence for `/data`:
+  * Either let the chart create a PVC (set `persistence.data.storageClass` and `size`), or
+  * Point at an existing PVC with `persistence.data.existingClaim`, or
 
 # Configuration
 
