@@ -8,8 +8,8 @@ apiVersion: v2
 appVersion: "v0.8.0"
 dependencies:
   - name: common
-    repository: https://charts.bitnami.com/bitnami
-    version: 2.31.3
+    version: 4.2.0
+    repository: https://bjw-s-labs.github.io/helm-charts/
 description: A chart to run Terralist (terralist.io) running on kubernetes
 home: https://terralist.io/
 icon: https://raw.githubusercontent.com/terralist/terralist/refs/heads/master/docs/assets/terralist.svg

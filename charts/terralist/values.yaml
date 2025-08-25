@@ -1,57 +1,92 @@
-image:
-  registry: ghcr.io
-  repository: terralist/terralist
-  tag: v0.8.0
-  pullPolicy: IfNotPresent
+---
+controllers:
+  main:
+    replicas: 1
+    strategy: RollingUpdate
+    containers:
+      app:
+        image:
+          repository: ghcr.io/terralist/terralist
+          tag: v0.8.0
+          pullPolicy: IfNotPresent
 
-containerPorts:
-  http: 5758
+        ports:
+          - name: http
+            containerPort: 5758
 
-replicaCount: 1
+        command: ["terralist"]
+        args: ["server"]
 
-resources:
-  limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
 
-# TODO: add probes when terralist supports health checks
-# livenessProbe:
-#   enabled: true
-#   path: /health
-#   port: http
-#   initialDelaySeconds: 10
-#   periodSeconds: 10
+        # TODO: Enable the probes below once the application is supports these
+        # probes:
+        #   liveness:
+        #     enabled: true
+        #     type: http
+        #     path: /liveness
+        #     port: http
+        #     initialDelaySeconds: 10
+        #     periodSeconds: 10
+        #   readiness:
+        #     enabled: true
+        #     type: http
+        #     path: /readyz
+        #     port: http
+        #     initialDelaySeconds: 5
+        #     periodSeconds: 5
+        #   startup:
+        #     enabled: true
+        #     type: http
+        #     path: /healthz
+        #     port: http
+        #     initialDelaySeconds: 5
+        #     periodSeconds: 5
+    pod:
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
 
-# readinessProbe:
-#   enabled: true
-#   path: /health
-#   port: http
-#   initialDelaySeconds: 5
-#   periodSeconds: 5
-
-# startupProbe:
-#   enabled: true
-#   path: /health
-#   port: http
-#   initialDelaySeconds: 5
-#   periodSeconds: 5
-
-podLabels:
-  app.kubernetes.io/component: terralist
+defaultPodOptions:
+  labels:
+    app.kubernetes.io/component: terralist
 
 service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    http: 5758
+  main:
+    enabled: true
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 5758
+        targetPort: http
 
 ingress:
-  enabled: false
-  ingressClassName: nginx
-  hostname: terralist.local
-  annotations: {}
-  tls: false
-  tlsSecret: terralist-tls
+  main:
+    enabled: false
+    className: nginx
+    hosts:
+      - host: terralist.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls: []
+
+persistence:
+  data:
+    enabled: true
+    accessMode: ReadWriteMany
+    size: 10Gi
+    retain: true
+    globalMounts:
+      - path: /data

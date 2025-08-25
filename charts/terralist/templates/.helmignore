@@ -1,0 +1,10 @@
+.git/
+.github/
+.gitignore
+.idea/
+.vscode/
+*.swp
+*.bak
+.DS_Store
+charts/
+tmp/
