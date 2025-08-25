@@ -1,3 +1,4 @@
-{{/* Required bjw-s/common includes to render all resources from values.yml */}}
+---
+{{/* Required bjw-s/common includes to render all resources from values.yaml */}}
 {{- include "bjw-s.common.loader.init" . -}}
 {{- include "bjw-s.common.loader.generate" . -}}
